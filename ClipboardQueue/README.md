@@ -47,9 +47,10 @@ swaps the popover body for a list picker.
 - Global hot keys via the Carbon API (no Accessibility permission needed):
   `⌃⌥→` skip, `⌃⌥←` back, `⌃⌥C` open the main window. In-app menu equivalents:
   `⌘]`, `⌘[`, `⌘R`, `⌘0`.
-- Lists persist to `~/Library/Application Support/ClipboardQueue/lists.json`,
-  seeded on first launch with the design's demo data (cursor at item 04, as in
-  the mock) plus the four other named lists at their designed item counts.
+- Lists persist to `~/Library/Application Support/ClipboardQueue/lists.json`.
+  A first launch seeds one list, `Sample quotes` (8 items, cursor at 01). An
+  existing save file is never overwritten or migrated — to get fresh starter
+  content, quit, delete `lists.json`, and relaunch.
 - The design's three props are real settings (⌘, or the sidebar's Settings):
   accent (the four specified swatches), end-of-list stop/loop, row density
   comfortable/compact.
@@ -63,6 +64,14 @@ swaps the popover body for a list picker.
   clipboard and you advance it yourself: paste, then `⌃⌥→`. All UI copy was
   re-worded to match, so no surface claims to watch for pastes. Reversing this
   decision needs its own proposal.
+- **The seeded content deliberately no longer matches the mock.** The design
+  shows five lists and a 20-item `Demo — Q3 signups` of invented signups —
+  names, emails, a phone number, an address, signup codes — plus a list of
+  payment card numbers. None of it is real, but all of it reads as real, and
+  this app pastes the current item straight into whatever window you are in.
+  A first launch now seeds one list of short quotations instead
+  (`openspec/changes/.../replace-seed-data-with-quotes`). Layout is untouched;
+  the sidebar simply has one row to draw.
 - **Inconsolata** is used when installed, otherwise SF Mono (`Theme.mono`). The
   design loads it from Google Fonts; the app ships no font file.
 - `Edit items` opens a one-item-per-line editor and `New list` creates a list —
