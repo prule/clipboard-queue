@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #e8e8ea; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0a68d0; text-decoration: none; }
+  a:hover { color: #0a4f9e; text-decoration: underline; }
+  @keyframes qpulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+</style>
+</helmet>
+
+<section style="display:flex;flex-direction:column;gap:28px;padding:56px 64px;">
+  <div style="display:flex;flex-direction:column;gap:6px;max-width:760px;">
+    <div style="font:600 11px/1 -apple-system,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8a8a90;">Turn 1 · Hi-fi</div>
+    <h1 style="margin:0;font:600 26px/1.2 -apple-system,sans-serif;color:#1b1b1f;letter-spacing:-.01em;">Clipboard Queue — macOS</h1>
+    <p style="margin:0;font:400 14px/1.55 -apple-system,sans-serif;color:#6b6b73;text-wrap:pretty;">Main window plus the menu-bar dropdown. Every <kbd style="font:500 12px/1 Inconsolata,monospace;background:#dcdce0;border-radius:4px;padding:2px 5px;">⌘V</kbd> pastes the current item and loads the next one onto the clipboard.</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;">
+
+    <div id="1a" style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font:600 11px/1 Inconsolata,monospace;background:#1b1b1f;color:#fff;border-radius:4px;padding:4px 7px;">1a</span>
+        <span style="font:500 13px/1 -apple-system,sans-serif;color:#4a4a52;">Main window — running a list</span>
+      </div>
+
+      <div style="width:1000px;border-radius:11px;overflow:hidden;background:#fff;box-shadow:0 24px 60px rgba(0,0,0,.20),0 2px 6px rgba(0,0,0,.10);border:1px solid rgba(0,0,0,.10);">
+        <div style="display:flex;height:640px;">
+
+          <div style="width:236px;flex:none;background:#f0f0f2;border-right:1px solid #dcdce0;display:flex;flex-direction:column;">
+            <div style="height:52px;flex:none;display:flex;align-items:center;gap:8px;padding:0 14px;">
+              <div style="display:flex;gap:8px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></div>
+                <div style="width:12px;height:12px;border-radius:50%;background:#febc2e;"></div>
+                <div style="width:12px;height:12px;border-radius:50%;background:#28c840;"></div>
+              </div>
+            </div>
+            <div style="padding:2px 12px 8px;font:600 11px/1 -apple-system,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#8a8a90;">Lists</div>
+            <div style="display:flex;flex-direction:column;gap:1px;padding:0 8px;overflow:auto;">
+              <sc-for list="{{ lists }}" as="l" hint-placeholder-count="5">
+                <div style="{{ l.rowStyle }}">
+                  <div style="{{ l.dotStyle }}"></div>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font:500 13px/1.3 -apple-system,sans-serif;color:{{ l.nameColor }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ l.name }}</div>
+                    <div style="font:400 11px/1.4 -apple-system,sans-serif;color:{{ l.metaColor }};">{{ l.meta }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:auto;padding:10px;border-top:1px solid #dcdce0;display:flex;flex-direction:column;gap:6px;">
+              <button style="display:flex;align-items:center;gap:7px;padding:6px 9px;border:none;background:transparent;border-radius:6px;cursor:pointer;font:400 13px/1 -apple-system,sans-serif;color:#3a3a42;text-align:left;" style-hover="background:#e2e2e6;">
+                <span style="font:400 15px/1 -apple-system,sans-serif;color:#8a8a90;">+</span> New list
+              </button>
+              <button style="display:flex;align-items:center;gap:7px;padding:6px 9px;border:none;background:transparent;border-radius:6px;cursor:pointer;font:400 13px/1 -apple-system,sans-serif;color:#3a3a42;text-align:left;" style-hover="background:#e2e2e6;">
+                <span style="font:400 13px/1 -apple-system,sans-serif;color:#8a8a90;">⌥</span> Settings
+              </button>
+            </div>
+          </div>
+
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;background:#fff;">
+            <div style="height:52px;flex:none;border-bottom:1px solid #e6e6ea;display:flex;align-items:center;justify-content:space-between;padding:0 16px;">
+              <div style="display:flex;align-items:baseline;gap:9px;">
+                <div style="font:600 14px/1 -apple-system,sans-serif;color:#1b1b1f;">Demo — Q3 signups</div>
+                <div style="font:400 12px/1 -apple-system,sans-serif;color:#8a8a90;">20 items</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button style="padding:4px 11px;border:1px solid #d2d2d8;background:#fff;border-radius:6px;cursor:pointer;font:400 12px/1.5 -apple-system,sans-serif;color:#2a2a32;box-shadow:0 1px 1px rgba(0,0,0,.04);" style-hover="background:#f4f4f6;">Edit items</button>
+                <button style="padding:4px 11px;border:1px solid #d2d2d8;background:#fff;border-radius:6px;cursor:pointer;font:400 12px/1.5 -apple-system,sans-serif;color:#2a2a32;box-shadow:0 1px 1px rgba(0,0,0,.04);" style-hover="background:#f4f4f6;">Capture on copy</button>
+              </div>
+            </div>
+
+            <div style="padding:18px 20px 16px;border-bottom:1px solid #e6e6ea;display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;">
+                  <div style="font:600 10px/1 -apple-system,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8a8a90;">On the clipboard now</div>
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <div style="width:7px;height:7px;border-radius:50%;background:{{ accent }};animation:qpulse 1.8s ease-in-out infinite;"></div>
+                    <div style="font:500 19px/1.25 Inconsolata,monospace;color:#1b1b1f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ currentText }}</div>
+                  </div>
+                  <div style="font:400 12px/1.4 -apple-system,sans-serif;color:#8a8a90;">Next up · <span style="font:400 12px/1.4 Inconsolata,monospace;color:#5a5a62;">{{ nextText }}</span></div>
+                </div>
+                <div style="text-align:right;flex:none;">
+                  <div style="font:600 24px/1 -apple-system,sans-serif;color:#1b1b1f;letter-spacing:-.02em;font-variant-numeric:tabular-nums;">{{ counter }}</div>
+                  <div style="font:400 11px/1.4 -apple-system,sans-serif;color:#8a8a90;">pasted</div>
+                </div>
+              </div>
+
+              <div style="height:5px;border-radius:3px;background:#e6e6ea;overflow:hidden;">
+                <div style="height:100%;border-radius:3px;background:{{ accent }};width:{{ progressPct }};transition:width .25s ease;"></div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:8px;">
+                <button onClick="{{ togglePaste }}" style="{{ primaryBtnStyle }}">{{ primaryBtnLabel }}</button>
+                <button onClick="{{ back }}" style="padding:6px 12px;border:1px solid #d2d2d8;background:#fff;border-radius:7px;cursor:pointer;font:400 13px/1.4 -apple-system,sans-serif;color:#2a2a32;" style-hover="background:#f4f4f6;">Back</button>
+                <button onClick="{{ skip }}" style="padding:6px 12px;border:1px solid #d2d2d8;background:#fff;border-radius:7px;cursor:pointer;font:400 13px/1.4 -apple-system,sans-serif;color:#2a2a32;" style-hover="background:#f4f4f6;">Skip</button>
+                <button onClick="{{ reset }}" style="padding:6px 12px;border:1px solid #d2d2d8;background:#fff;border-radius:7px;cursor:pointer;font:400 13px/1.4 -apple-system,sans-serif;color:#2a2a32;" style-hover="background:#f4f4f6;">Reset</button>
+                <div style="margin-left:auto;font:400 11px/1.4 -apple-system,sans-serif;color:#9a9aa2;">{{ endBehaviourNote }}</div>
+              </div>
+            </div>
+
+            <div style="flex:1;min-height:0;overflow:auto;">
+              <sc-for list="{{ items }}" as="it" hint-placeholder-count="12">
+                <div style="{{ it.rowStyle }}">
+                  <div style="width:26px;flex:none;text-align:right;font:400 11px/1.4 Inconsolata,monospace;color:{{ it.numColor }};font-variant-numeric:tabular-nums;">{{ it.n }}</div>
+                  <div style="flex:1;min-width:0;font:{{ it.textFont }};color:{{ it.textColor }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ it.text }}</div>
+                  <div style="{{ it.tagStyle }}">{{ it.tag }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="height:30px;flex:none;border-top:1px solid #e6e6ea;background:#fafafb;display:flex;align-items:center;justify-content:space-between;padding:0 14px;">
+              <div style="font:400 11px/1 -apple-system,sans-serif;color:#8a8a90;">Watching for ⌘V system-wide</div>
+              <div style="font:400 11px/1 -apple-system,sans-serif;color:#8a8a90;">⌃⌥→ skip · ⌃⌥← back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font:400 12px/1.55 -apple-system,sans-serif;color:#7a7a82;max-width:1000px;text-wrap:pretty;">Click <b style="font-weight:600;">Simulate ⌘V</b> to advance — the row highlight, counter, progress bar and clipboard preview all move together. Copying something outside the app parks the queue rather than losing your place.</div>
+    </div>
+
+    <div id="1b" style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font:600 11px/1 Inconsolata,monospace;background:#1b1b1f;color:#fff;border-radius:4px;padding:4px 7px;">1b</span>
+        <span style="font:500 13px/1 -apple-system,sans-serif;color:#4a4a52;">Menu-bar dropdown</span>
+      </div>
+
+      <div style="width:330px;">
+        <div style="height:24px;background:rgba(246,246,248,.92);border:1px solid #dcdce0;border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:0 10px;">
+          <div style="font:500 11px/1 Inconsolata,monospace;color:{{ accent }};">▤ {{ counterShort }}</div>
+          <div style="font:400 11px/1 -apple-system,sans-serif;color:#5a5a62;">100%</div>
+          <div style="font:400 11px/1 -apple-system,sans-serif;color:#5a5a62;">Wed 14:32</div>
+        </div>
+        <div style="margin-top:6px;background:rgba(252,252,253,.98);border:1px solid rgba(0,0,0,.12);border-radius:10px;box-shadow:0 16px 40px rgba(0,0,0,.20);padding:10px;display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="font:600 12px/1 -apple-system,sans-serif;color:#1b1b1f;">Demo — Q3 signups</div>
+            <div style="font:400 11px/1 -apple-system,sans-serif;color:#8a8a90;font-variant-numeric:tabular-nums;">{{ counter }}</div>
+          </div>
+          <div style="height:4px;border-radius:2px;background:#e6e6ea;overflow:hidden;">
+            <div style="height:100%;background:{{ accent }};width:{{ progressPct }};transition:width .25s ease;"></div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e2e6;border-radius:8px;padding:9px 10px;display:flex;flex-direction:column;gap:6px;">
+            <div style="font:600 9px/1 -apple-system,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8a8a90;">Clipboard</div>
+            <div style="font:500 14px/1.2 Inconsolata,monospace;color:#1b1b1f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ currentText }}</div>
+            <div style="height:1px;background:#eeeef1;"></div>
+            <div style="font:400 11px/1.3 -apple-system,sans-serif;color:#8a8a90;">Next · <span style="font:400 11px/1.3 Inconsolata,monospace;color:#5a5a62;">{{ nextText }}</span></div>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button onClick="{{ togglePaste }}" style="{{ menuPrimaryStyle }}">{{ primaryBtnLabel }}</button>
+            <button onClick="{{ back }}" style="flex:none;padding:6px 10px;border:1px solid #d2d2d8;background:#fff;border-radius:6px;cursor:pointer;font:400 12px/1.3 -apple-system,sans-serif;color:#2a2a32;" style-hover="background:#f4f4f6;">←</button>
+            <button onClick="{{ skip }}" style="flex:none;padding:6px 10px;border:1px solid #d2d2d8;background:#fff;border-radius:6px;cursor:pointer;font:400 12px/1.3 -apple-system,sans-serif;color:#2a2a32;" style-hover="background:#f4f4f6;">→</button>
+          </div>
+          <div style="height:1px;background:#e6e6ea;margin:1px 0;"></div>
+          <div style="display:flex;flex-direction:column;">
+            <div style="display:flex;justify-content:space-between;padding:5px 6px;border-radius:5px;font:400 12px/1.3 -apple-system,sans-serif;color:#2a2a32;cursor:pointer;" style-hover="background:#eeeef1;"><span>Switch list…</span><span style="color:#9a9aa2;">▸</span></div>
+            <div style="display:flex;justify-content:space-between;padding:5px 6px;border-radius:5px;font:400 12px/1.3 -apple-system,sans-serif;color:#2a2a32;cursor:pointer;" style-hover="background:#eeeef1;"><span>Open main window</span><span style="color:#9a9aa2;font:400 11px/1.3 Inconsolata,monospace;">⌃⌥C</span></div>
+            <div style="display:flex;justify-content:space-between;padding:5px 6px;border-radius:5px;font:400 12px/1.3 -apple-system,sans-serif;color:#2a2a32;cursor:pointer;" style-hover="background:#eeeef1;"><span>Quit</span><span style="color:#9a9aa2;font:400 11px/1.3 Inconsolata,monospace;">⌘Q</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width:330px;margin-top:10px;background:#f4f4f6;border:1px solid #e2e2e6;border-radius:9px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font:600 11px/1 -apple-system,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8a8a90;">Cross-platform notes</div>
+        <div style="font:400 12px/1.6 -apple-system,sans-serif;color:#4a4a52;text-wrap:pretty;">Windows / Linux keep the same window; the menu-bar popover becomes a system-tray menu, ⌘V reads as Ctrl+V, and the hotkeys shift to Ctrl+Alt+←/→. Paste interception needs a per-platform hook (NSEvent tap on macOS, low-level keyboard hook on Windows, X11/Wayland shim on Linux) behind one expect/actual interface.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0a68d0&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#0a68d0&quot;,&quot;#1b1b1f&quot;,&quot;#0f7a53&quot;,&quot;#a03c1e&quot;]},&quot;loopAtEnd&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;comfortable&quot;,&quot;options&quot;:[&quot;comfortable&quot;,&quot;compact&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+const DATA = [
+  "ada.lovelace@northwind.co", "SIGNUP-4471-QX", "Marcus Chen",
+  "https://northwind.co/r/onboard", "beatriz.almeida@vela.io", "SIGNUP-4472-QX",
+  "Priya Raghunathan", "+1 (415) 555-0142", "tomas.novak@vela.io",
+  "SIGNUP-4473-QX", "Wren Adeyemi", "https://northwind.co/r/invite",
+  "hana.sato@meridian.dev", "SIGNUP-4474-QX", "Oliver Brandt",
+  "4th Floor, 88 Grange St", "lucia.moreno@meridian.dev", "SIGNUP-4475-QX",
+  "Devon Ellery", "https://northwind.co/r/trial"
+];
+
+const LISTS = [
+  { name: "Demo — Q3 signups", meta: "20 items · active", live: true },
+  { name: "Test card numbers", meta: "8 items" },
+  { name: "Support macros", meta: "14 items" },
+  { name: "Onboarding demo", meta: "31 items" },
+  { name: "Localisation strings", meta: "62 items" }
+];
+
+class Component extends DCLogic {
+  state = { i: 3, running: true };
+
+  get accent() { return this.props.accentColor ?? "#0a68d0"; }
+
+  advance = () => this.setState(s => {
+    const loop = this.props.loopAtEnd ?? false;
+    const next = s.i + 1;
+    if (next >= DATA.length) return loop ? { i: 0 } : { i: DATA.length - 1, running: false };
+    return { i: next };
+  });
+
+  renderVals() {
+    const { i, running } = this.state;
+    const accent = this.accent;
+    const loop = this.props.loopAtEnd ?? false;
+    const compact = (this.props.density ?? "comfortable") === "compact";
+    const rowPad = compact ? "5px 16px" : "9px 16px";
+
+    const items = DATA.map((text, n) => {
+      const done = n < i, cur = n === i;
+      return {
+        n: String(n + 1).padStart(2, "0"),
+        text,
+        numColor: cur ? accent : done ? "#c2c2c8" : "#a8a8b0",
+        textColor: cur ? "#1b1b1f" : done ? "#a8a8b0" : "#3a3a42",
+        textFont: (cur ? "500 " : "400 ") + "13px/1.4 Inconsolata, monospace",
+        rowStyle: "display:flex;align-items:center;gap:12px;padding:" + rowPad +
+          ";border-bottom:1px solid #f2f2f4;" +
+          (cur ? "background:" + accent + "12;box-shadow:inset 3px 0 0 " + accent + ";" : ""),
+        tag: cur ? "on clipboard" : done ? "pasted" : "",
+        tagStyle: "flex:none;font:500 10px/1 -apple-system,sans-serif;letter-spacing:.04em;color:" +
+          (cur ? accent : "#b4b4bc") + ";text-transform:uppercase;"
+      };
+    });
+
+    const lists = LISTS.map(l => ({
+      name: l.name,
+      meta: l.meta,
+      nameColor: l.live ? "#fff" : "#2a2a32",
+      metaColor: l.live ? "rgba(255,255,255,.72)" : "#8a8a90",
+      dotStyle: "width:6px;height:6px;border-radius:50%;flex:none;background:" + (l.live ? "#fff" : "transparent"),
+      rowStyle: "display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:6px;cursor:pointer;" +
+        (l.live ? "background:" + accent + ";" : "")
+    }));
+
+    const btn = (extra) => "padding:6px 14px;border:none;border-radius:7px;cursor:pointer;font:500 13px/1.4 -apple-system,sans-serif;color:#fff;background:" + (running ? accent : "#5a5a62") + ";box-shadow:0 1px 2px rgba(0,0,0,.14);" + extra;
+
+    return {
+      accent,
+      items, lists,
+      currentText: DATA[i],
+      nextText: i + 1 < DATA.length ? DATA[i + 1] : (loop ? DATA[0] : "— end of list —"),
+      counter: (i + 1) + " of " + DATA.length,
+      counterShort: (i + 1) + "/" + DATA.length,
+      progressPct: Math.round(((i + 1) / DATA.length) * 100) + "%",
+      primaryBtnLabel: running ? "Simulate ⌘V" : "Resume",
+      primaryBtnStyle: btn(""),
+      menuPrimaryStyle: btn("flex:1;font-size:12px;"),
+      endBehaviourNote: loop ? "Loops back to item 01 at the end" : "Stops at the end of the list",
+      togglePaste: () => running ? this.advance() : this.setState({ running: true }),
+      skip: this.advance,
+      back: () => this.setState(s => ({ i: Math.max(0, s.i - 1) })),
+      reset: () => this.setState({ i: 0, running: true })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

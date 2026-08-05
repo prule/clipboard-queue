@@ -1,0 +1,84 @@
+schema: spec-driven
+
+context: |
+  Product: Clipboard Queue — a macOS app that holds an ordered list of text
+  items and feeds them to the system clipboard one at a time. Every paste
+  advances the queue, so pasting repeatedly walks the list. Lists can be
+  switched, edited, jumped to by row, and grown by capturing external copies.
+
+  Tech stack:
+    - Swift 6 toolchain, SwiftUI + AppKit, macOS 14+ deployment target.
+    - Swift Package Manager executable target (`ClipboardQueue/Package.swift`).
+      Xcode is NOT installed — only Command Line Tools. Build with
+      `./ClipboardQueue/build.sh`, which runs `swift build`, then assembles and
+      ad-hoc signs `build/Clipboard Queue.app` around the executable. Never
+      propose changes that require an `.xcodeproj` or `xcodebuild`.
+    - Zero third-party dependencies. Keep it that way unless a proposal makes
+      the case explicitly.
+    - Carbon `RegisterEventHotKey` for global shortcuts, chosen because it needs
+      no Accessibility permission. `CGEventTap` (which does) is the known path
+      for true system-wide ⌘V interception and is not yet implemented.
+
+  Source layout (`ClipboardQueue/Sources/ClipboardQueue/`):
+    App.swift            @main + AppDelegate: window, status item, popover, hot keys, menus
+    AppStore.swift       @MainActor ObservableObject — lists, cursor, pasteboard ownership, parking, persistence
+    Models.swift         ClipList / QueueItem / Accent / Density + first-launch seed data
+    Theme.swift          every colour and font from the design, in one place
+    Components.swift     button styles, pulse dot, progress bar, traffic lights
+    MainWindowView.swift the 1000×640 main window
+    MenuBarView.swift    the 330px menu-bar popover
+    Sheets.swift         settings + item editor
+    HotKeys.swift        Carbon hot-key registration
+
+  Design source of truth: `clipboard-queue-app/` is a Claude Design handoff
+  bundle. `clipboard-queue-app/project/Clipboard Queue.dc.html` is the hi-fi
+  spec (frame 1a = main window, 1b = menu-bar popover), and every colour, size,
+  padding, weight and copy string in the app traces back to it. When a change
+  touches visuals, cite the design or state plainly that it departs from it.
+
+  Conventions:
+    - All colours and fonts go through `Theme`. No literal hex or bare
+      `.system(size:)` in view code.
+    - `AppStore` is the only thing that writes to `NSPasteboard`. Views call
+      intents on it; they never touch the pasteboard or persistence directly.
+    - The app owns the clipboard only while `running`. A pasteboard change the
+      app didn't make means the user copied something of their own, so the queue
+      parks and keeps its place rather than fighting for the clipboard. Any
+      change in this area must preserve that rule.
+    - Lists persist as JSON at
+      `~/Library/Application Support/ClipboardQueue/lists.json`; settings live in
+      UserDefaults. Schema changes need a migration or a documented reset.
+    - Light appearance only — the design is a light-mode spec. Dark mode is a
+      deliberate non-goal until a proposal covers it.
+    - Comments explain why, not what. Match the density of the surrounding file.
+
+  Cross-platform: the design notes a future Windows/Linux port (tray menu
+  instead of a menu-bar popover, Ctrl+V, Ctrl+Alt+←/→, per-platform paste hook
+  behind one interface). Nothing is implemented for it yet; don't assume shared
+  abstractions exist.
+
+rules:
+  proposal:
+    - State the user-visible behaviour change first, implementation second.
+    - Always include a "Non-goals" section.
+    - Call out any new permission prompt (Accessibility, Input Monitoring, full
+      disk) explicitly — these are the highest-friction changes in this app.
+    - Note whether the change alters the persisted lists.json schema.
+  specs:
+    - Write requirements against observable app behaviour (what the window,
+      popover, clipboard or status item does), not internal types.
+    - Cover the parked state, empty lists, and the end of a list for any
+      requirement that touches the queue cursor.
+    - Where a requirement restates the design, reference the frame (1a / 1b)
+      rather than repeating pixel values.
+  design:
+    - Name which existing files change and which are new; flag anything that
+      adds a dependency or a build step.
+    - Any UI decision that departs from the handoff design needs an explicit
+      justification.
+  tasks:
+    - Break tasks into chunks of max 2 hours.
+    - Order tasks so the app still builds and launches after each one.
+    - End with a task that verifies the change by running the app
+      (`./ClipboardQueue/build.sh && open "ClipboardQueue/build/Clipboard Queue.app"`),
+      since there is no test target yet.
