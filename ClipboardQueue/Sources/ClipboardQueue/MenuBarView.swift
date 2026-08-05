@@ -64,8 +64,10 @@ struct MenuBarView: View {
                                                    hPadding: 10, radius: 6, expands: true))
                 Button("←") { store.back() }
                     .buttonStyle(BorderedButtonStyle(font: Theme.ui(12), hPadding: 10, radius: 6))
+                    .help("Back · ⌃⌥←")
                 Button("→") { store.advance() }
                     .buttonStyle(BorderedButtonStyle(font: Theme.ui(12), hPadding: 10, radius: 6))
+                    .help("Next item · ⌃⌥→")
             }
 
             Rectangle().fill(Theme.paneBorder).frame(height: 1).padding(.vertical, 1)

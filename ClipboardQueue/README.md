@@ -22,12 +22,14 @@ bundle around the executable, then ad-hoc signs it.
   hidden and the drawn ones are wired to close/minimise/zoom.
 - Pane header: list name, item count, `Edit items`, `Capture on copy`.
 - "On the clipboard now" panel: pulsing accent dot (1 → .35 over 1.8s), current
-  item in monospace, `Next up ·`, the `n of N` counter, progress bar, and the
-  `Simulate ⌘V` / `Back` / `Skip` / `Reset` controls with the end-behaviour note.
+  item in monospace, `Next up ·`, the `n of N` counter captioned `in queue`,
+  progress bar, and the `Next item ⌃⌥→` / `Back` / `Skip` / `Reset` controls
+  with the end-behaviour note.
 - Item list: zero-padded numbers, per-state colours, accent-tinted current row
   with a 3px inset accent bar, `ON CLIPBOARD` / `PASTED` tags. Clicking a row
   jumps the queue to it. Auto-scrolls to keep the current item visible.
-- Status bar: `Watching for ⌘V system-wide` · `⌃⌥→ skip · ⌃⌥← back`.
+- Status bar: live queue state (`Queue holds the clipboard`, `Parked — you
+  copied something else`, `Finished — end of list`) · `⌃⌥→ skip · ⌃⌥← back`.
 
 **Menu-bar popover (design 1b)** — 330px, opened from a status item that shows
 `▤ 4/20` in the accent colour (grey when parked). List name, counter, progress,
@@ -54,11 +56,13 @@ swaps the popover body for a list picker.
 
 ## Deliberate deviations
 
-- **⌘V interception is not wired.** As agreed, the app owns the clipboard and
-  advances on the in-app button and the global hot keys; intercepting every
-  system-wide `⌘V` needs a `CGEventTap` plus Accessibility permission. The
-  status-bar copy still reads as the design specifies. `ClipboardMonitor`-side
-  hooks live in `AppStore.pollPasteboard()`, which is where a tap would feed in.
+- **System-wide ⌘V interception is a non-goal, not pending work.** The design's
+  premise — "every ⌘V pastes the current item and loads the next one" — would
+  need a `CGEventTap` and Accessibility permission, and we decided against it
+  (`openspec/changes/drop-paste-interception-ui`). The app instead owns the
+  clipboard and you advance it yourself: paste, then `⌃⌥→`. All UI copy was
+  re-worded to match, so no surface claims to watch for pastes. Reversing this
+  decision needs its own proposal.
 - **Inconsolata** is used when installed, otherwise SF Mono (`Theme.mono`). The
   design loads it from Google Fonts; the app ships no font file.
 - `Edit items` opens a one-item-per-line editor and `New list` creates a list —

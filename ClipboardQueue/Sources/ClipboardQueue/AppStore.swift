@@ -13,7 +13,14 @@ final class AppStore: ObservableObject {
 
     /// Whether the queue is driving the clipboard. Parked when the user copies
     /// something of their own, or when a non-looping list runs out.
-    @Published var running: Bool = true
+    @Published var running: Bool = true {
+        didSet { if running { parkReason = nil } }
+    }
+
+    enum ParkReason { case outsideCopy, endOfList }
+
+    /// Why the queue parked, so the status bar can say which of the two happened.
+    @Published private(set) var parkReason: ParkReason?
 
     /// Appends anything copied outside the app to the active list.
     @Published var captureOnCopy: Bool = false
@@ -80,10 +87,17 @@ final class AppStore: ObservableObject {
         return Double(cursor + 1) / Double(itemCount)
     }
 
-    var primaryButtonLabel: String { running ? "Simulate ⌘V" : "Resume" }
+    var primaryButtonLabel: String { running ? "Next item" : "Resume" }
 
     var endBehaviourNote: String {
         endBehaviour == .loop ? "Loops back to item 01 at the end" : "Stops at the end of the list"
+    }
+
+    /// Left of the status bar: the app never watches for ⌘V, so this reports
+    /// whether the queue currently owns the clipboard and, if not, why.
+    var statusNote: String {
+        guard !running else { return "Queue holds the clipboard" }
+        return parkReason == .endOfList ? "Finished — end of list" : "Parked — you copied something else"
     }
 
     var isLive: Bool { running }
@@ -109,6 +123,7 @@ final class AppStore: ObservableObject {
             } else {
                 lists[idx].cursor = lists[idx].items.count - 1
                 running = false
+                parkReason = .endOfList
                 persistLists()
                 return
             }
@@ -225,6 +240,7 @@ final class AppStore: ObservableObject {
             persistLists()
         }
         running = false
+        parkReason = .outsideCopy
     }
 
     // MARK: - Persistence

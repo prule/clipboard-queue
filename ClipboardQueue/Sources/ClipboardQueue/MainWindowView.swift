@@ -181,7 +181,7 @@ struct MainPaneView: View {
 
     private var statusBar: some View {
         HStack {
-            Text("Watching for ⌘V system-wide")
+            Text(store.statusNote)
             Spacer()
             Text("⌃⌥→ skip · ⌃⌥← back")
         }
@@ -264,7 +264,7 @@ struct QueuePanelView: View {
                         .monospacedDigit()
                         .tracking(em: -0.02, size: 24)
                         .foregroundStyle(Theme.ink)
-                    Text("pasted")
+                    Text("in queue")
                         .font(Theme.ui(11))
                         .foregroundStyle(Theme.meta)
                 }
@@ -273,8 +273,16 @@ struct QueuePanelView: View {
             ProgressBar(value: store.progress, color: store.accentColor)
 
             HStack(spacing: 8) {
-                Button(store.primaryButtonLabel) { store.togglePaste() }
-                    .buttonStyle(FilledButtonStyle(color: store.running ? store.accentColor : Theme.pausedButton))
+                Button { store.togglePaste() } label: {
+                    HStack(spacing: 7) {
+                        Text(store.primaryButtonLabel)
+                        // Advancing is manual now, so the hot key is on the control itself.
+                        if store.running {
+                            Text("⌃⌥→").font(Theme.mono(11)).opacity(0.85)
+                        }
+                    }
+                }
+                .buttonStyle(FilledButtonStyle(color: store.running ? store.accentColor : Theme.pausedButton))
                 Button("Back") { store.back() }.buttonStyle(BorderedButtonStyle())
                 Button("Skip") { store.advance() }.buttonStyle(BorderedButtonStyle())
                 Button("Reset") { store.reset() }.buttonStyle(BorderedButtonStyle())
