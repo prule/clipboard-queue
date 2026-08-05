@@ -45,8 +45,7 @@ context: |
       app didn't make means the user copied something of their own, so the queue
       parks and keeps its place rather than fighting for the clipboard. Any
       change in this area must preserve that rule.
-    - Lists persist as JSON at
-      `~/Library/Application Support/ClipboardQueue/lists.json`; settings live in
+    - Lists persist as JSON at `~/.clipboardqueue/lists.json`; settings live in
       UserDefaults. Schema changes need a migration or a documented reset.
     - Light appearance only — the design is a light-mode spec. Dark mode is a
       deliberate non-goal until a proposal covers it.

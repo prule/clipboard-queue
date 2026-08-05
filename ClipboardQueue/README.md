@@ -47,10 +47,18 @@ swaps the popover body for a list picker.
 - Global hot keys via the Carbon API (no Accessibility permission needed):
   `⌃⌥→` skip, `⌃⌥←` back, `⌃⌥C` open the main window. In-app menu equivalents:
   `⌘]`, `⌘[`, `⌘R`, `⌘0`.
-- Lists persist to `~/Library/Application Support/ClipboardQueue/lists.json`.
-  A first launch seeds one list, `Sample quotes` (8 items, cursor at 01). An
-  existing save file is never overwritten or migrated — to get fresh starter
-  content, quit, delete `lists.json`, and relaunch.
+- Lists persist to `~/.clipboardqueue/lists.json`. A first launch seeds one
+  list, `Sample quotes` (8 items, cursor at 01). An existing save file is never
+  overwritten or migrated — to get fresh starter content, quit, delete
+  `lists.json`, and relaunch.
+  Builds before the move stored lists at
+  `~/Library/Application Support/ClipboardQueue/lists.json` and nothing reads
+  that path any more. The schema is unchanged, so carrying old lists forward is
+  a one-time copy — quit the app first, or the next save overwrites it:
+  ```sh
+  mkdir -p ~/.clipboardqueue
+  cp "$HOME/Library/Application Support/ClipboardQueue/lists.json" ~/.clipboardqueue/lists.json
+  ```
 - The design's three props are real settings (⌘, or the sidebar's Settings):
   accent (the four specified swatches), end-of-list stop/loop, row density
   comfortable/compact.
