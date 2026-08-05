@@ -45,50 +45,21 @@ enum Accent: String, Codable, CaseIterable, Identifiable {
 // MARK: - Seed content
 
 enum Seed {
-    static let demo = [
-        "ada.lovelace@northwind.co", "SIGNUP-4471-QX", "Marcus Chen",
-        "https://northwind.co/r/onboard", "beatriz.almeida@vela.io", "SIGNUP-4472-QX",
-        "Priya Raghunathan", "+1 (415) 555-0142", "tomas.novak@vela.io",
-        "SIGNUP-4473-QX", "Wren Adeyemi", "https://northwind.co/r/invite",
-        "hana.sato@meridian.dev", "SIGNUP-4474-QX", "Oliver Brandt",
-        "4th Floor, 88 Grange St", "lucia.moreno@meridian.dev", "SIGNUP-4475-QX",
-        "Devon Ellery", "https://northwind.co/r/trial"
+    /// Quotation text only, no attributions: the app pushes whatever the cursor
+    /// is on straight to the system clipboard, so nothing seeded may resemble a
+    /// personal name, address, account identifier or card number.
+    static let quotes = [
+        "Well begun is half done.",
+        "The obstacle is the way.",
+        "Fall seven times, stand up eight.",
+        "Simplicity is the ultimate sophistication.",
+        "What we do now echoes in eternity.",
+        "The best time to plant a tree was twenty years ago.",
+        "Begin where you are, with what you have.",
+        "Small steps, taken daily, compound."
     ]
-
-    static let testCards = [
-        "4242 4242 4242 4242", "4000 0025 0000 3155", "4000 0000 0000 9995",
-        "5555 5555 5555 4444", "3782 822463 10005", "6011 1111 1111 1117",
-        "3056 9309 0259 04", "4000 0000 0000 0002"
-    ]
-
-    static let supportMacros = [
-        "Thanks for reaching out — I'm looking into this now.",
-        "Could you send us a screenshot of what you're seeing?",
-        "I've escalated this to our engineering team.",
-        "This should be fixed in the latest release — mind updating?",
-        "Sorry for the delay on this one.",
-        "I've issued a refund; it lands in 5–10 business days.",
-        "Your account has been upgraded.",
-        "Can you confirm the email address on the account?",
-        "We've reset your password — check your inbox.",
-        "Closing this out; reopen any time if it recurs.",
-        "Here's our status page: https://status.northwind.co",
-        "I've added a note to your account for next time.",
-        "Happy to help — anything else I can pick up?",
-        "Following up on this — still seeing the issue?"
-    ]
-
-    static func numbered(_ prefix: String, _ count: Int) -> [String] {
-        (1...count).map { "\(prefix) \(String(format: "%02d", $0))" }
-    }
 
     static func lists() -> [ClipList] {
-        [
-            ClipList(name: "Demo — Q3 signups", items: demo.map { QueueItem(text: $0) }, cursor: 3),
-            ClipList(name: "Test card numbers", items: testCards.map { QueueItem(text: $0) }),
-            ClipList(name: "Support macros", items: supportMacros.map { QueueItem(text: $0) }),
-            ClipList(name: "Onboarding demo", items: numbered("Onboarding step", 31).map { QueueItem(text: $0) }),
-            ClipList(name: "Localisation strings", items: numbered("string.key", 62).map { QueueItem(text: $0) })
-        ]
+        [ClipList(name: "Sample quotes", items: quotes.map { QueueItem(text: $0) })]
     }
 }
