@@ -9,7 +9,7 @@ When no save file exists, the app SHALL create a single list named `Sample quote
 
 #### Scenario: First launch with no save file
 
-- **WHEN** the app starts and `~/Library/Application Support/ClipboardQueue/lists.json` does not exist
+- **WHEN** the app starts and `~/.clipboardqueue/lists.json` does not exist
 - **THEN** the sidebar shows exactly one list, `Sample quotes`, with 8 items
 - **AND** the cursor is on item 01 and that item's text is on the system clipboard
 

@@ -264,9 +264,8 @@ final class AppStore: ObservableObject {
 
 enum Persistence {
     private static var url: URL {
-        let dir = FileManager.default
-            .urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("ClipboardQueue", isDirectory: true)
+        let dir = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent(".clipboardqueue", isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         return dir.appendingPathComponent("lists.json")
     }
