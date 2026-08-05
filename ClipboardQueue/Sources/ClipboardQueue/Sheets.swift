@@ -61,6 +61,14 @@ struct SettingsSheet: View {
             }
 
             VStack(alignment: .leading, spacing: 4) {
+                sectionLabel("How it works")
+                Text("Clipboard Queue puts one item on the clipboard at a time. Paste it wherever you like, then advance the queue with ⌃⌥→.")
+                    .font(Theme.ui(12))
+                    .foregroundStyle(Theme.label)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
                 sectionLabel("Shortcuts")
                 Text("⌃⌥→ skip · ⌃⌥← back · ⌃⌥C open main window")
                     .font(Theme.mono(11))

@@ -177,7 +177,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let queueItem = NSMenuItem()
         let queueMenu = NSMenu(title: "Queue")
-        add(queueMenu, "Simulate ⌘V", #selector(menuAdvance), "]")
+        add(queueMenu, "Next item", #selector(menuAdvance), "]")
         add(queueMenu, "Back", #selector(menuBack), "[")
         add(queueMenu, "Reset", #selector(menuReset), "r")
         queueMenu.addItem(.separator())
